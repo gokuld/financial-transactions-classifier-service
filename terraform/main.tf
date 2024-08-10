@@ -24,3 +24,10 @@ module "data" {
   vpc_id                          = module.network.vpc_id
   s3_vpc_endpoint_route_table_ids = [module.network.private_route_table.id]
 }
+
+module "mlflow" {
+  source = "./modules/mlflow"
+
+  vpc_id    = module.network.vpc_id
+  subnet_id = module.network.public_subnet_a_id
+}
