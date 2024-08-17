@@ -6,6 +6,7 @@ repos:
     rev: v4.6.0
     hooks:
       - id: check-added-large-files
+        exclude: data/amazon-product-reviews/description-category-data-sample.parquet
       - id: check-case-conflict
       - id: check-docstring-first
       - id: check-executables-have-shebangs
