@@ -1,4 +1,4 @@
 misconfigurations:
   - id: AVD-AWS-0054
-    statement: "HTTPS is not used intentional for this MVP. It will be set up later."
+    statement: "HTTPS is not used intentionally for this MVP. It will be set up later."
     expired_at: 2024-10-31
