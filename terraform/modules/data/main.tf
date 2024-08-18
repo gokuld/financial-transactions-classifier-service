@@ -1,7 +1,3 @@
-provider "aws" {
-  region = var.aws_region
-}
-
 # Create the S3 bucket for the project
 resource "aws_s3_bucket" "product_categorize_bucket" {
   bucket = var.bucket_name
