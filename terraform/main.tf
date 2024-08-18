@@ -32,3 +32,10 @@ module "mlflow" {
   subnet_id                            = module.network.public_subnet_a_id
   mlflow_artifact_store_s3_bucket_name = var.mlflow_artifact_store_s3_bucket_name
 }
+
+module "airflow" {
+  source = "./modules/airflow"
+
+  vpc_id    = module.network.vpc_id
+  subnet_id = module.network.public_subnet_a_id
+}
