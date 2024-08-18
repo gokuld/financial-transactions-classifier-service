@@ -13,7 +13,6 @@ provider "aws" {
 module "network" {
   source = "./modules/network"
 
-  aws_region          = var.aws_region
   availability_zone_a = var.availability_zone_a
   availability_zone_b = var.availability_zone_b
 }
