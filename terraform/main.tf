@@ -36,6 +36,7 @@ module "mlflow" {
 module "airflow" {
   source = "./modules/airflow"
 
-  vpc_id    = module.network.vpc_id
-  subnet_id = module.network.public_subnet_a_id
+  vpc_id           = module.network.vpc_id
+  subnet_id        = module.network.public_subnet_a_id
+  mlflow_server_ip = module.mlflow.mlflow_server_private_ip
 }

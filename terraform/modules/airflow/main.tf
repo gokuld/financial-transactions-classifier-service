@@ -16,6 +16,9 @@ resource "aws_instance" "airflow_instance" {
               #!/bin/bash
               sudo apt update -y
               sudo apt upgrade -y
+
+              echo 'MLFLOW_SERVER_IP=${var.mlflow_server_ip}' > /home/ec2-user/mlflow_server_ip.txt
+
               sudo apt install -y python3-pip python3-venv libpq-dev build-essential
 
               # Create a virtual environment for Airflow
