@@ -39,4 +39,8 @@ module "airflow" {
   vpc_id           = module.network.vpc_id
   subnet_id        = module.network.public_subnet_a_id
   mlflow_server_ip = module.mlflow.mlflow_server_private_ip
+
+  dags_local_path                 = var.airflow_dags_local_path
+  dataset_bucket_name             = var.dataset_bucket_name
+  dataset_parquet_file_bucket_key = var.dataset_parquet_file_bucket_key
 }
