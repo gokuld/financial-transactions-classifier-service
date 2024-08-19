@@ -1,6 +1,7 @@
 resource "aws_instance" "mlflow_server" {
-  ami           = "ami-061e327e2d858410e"
-  instance_type = "t2.micro"
+  ami                  = "ami-061e327e2d858410e"
+  instance_type        = "t2.micro"
+  iam_instance_profile = aws_iam_instance_profile.mlflow_instance_profile.name
 
   tags = {
     Name = "MLflow Server"
@@ -33,11 +34,12 @@ resource "aws_instance" "mlflow_server" {
 
               # Install MLflow using Pipenv
               pipenv install mlflow
+              pipenv install boto3 # required for managing artifacts in S3
 
               # Run MLflow server
               pipenv run mlflow server \
                 --backend-store-uri sqlite:///mlflow.db \
-                --default-artifact-root ./mlruns \
+                --default-artifact-root s3://${var.mlflow_artifact_store_s3_bucket_name}/${var.mlflow_artifact_store_s3_bucket_key} \
                 --host 0.0.0.0 \
                 --port 5000 &
               EOF

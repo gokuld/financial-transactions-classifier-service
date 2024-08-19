@@ -28,6 +28,7 @@ module "data" {
 module "mlflow" {
   source = "./modules/mlflow"
 
-  vpc_id    = module.network.vpc_id
-  subnet_id = module.network.public_subnet_a_id
+  vpc_id                               = module.network.vpc_id
+  subnet_id                            = module.network.public_subnet_a_id
+  mlflow_artifact_store_s3_bucket_name = var.mlflow_artifact_store_s3_bucket_name
 }
