@@ -30,3 +30,14 @@ variable "private_key_path" {
   type        = string
   default     = "./modules/airflow/AirFlow Server.pem"
 }
+
+# used for adding allow PutObject policy for storing MLFlow artifacts
+variable "mlflow_artifact_store_s3_bucket_name" {
+  type = string
+}
+
+# used for adding allow PutObject policy for storing MLFlow artifacts
+variable "mlflow_artifact_store_s3_bucket_key" {
+  type    = string
+  default = "mlflow-artifacts"
+}

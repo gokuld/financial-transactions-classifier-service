@@ -15,7 +15,7 @@ resource "aws_iam_role" "airflow_role" {
 
 # Attach Policy to the IAM Role for S3 Access
 resource "aws_iam_role_policy" "airflow_s3_policy" {
-  name = "AirflowS3DatasetObjectReadOnlyPolicy"
+  name = "Airflow_S3_policy"
   role = aws_iam_role.airflow_role.id
   policy = jsonencode({
     Version = "2012-10-17",
@@ -25,7 +25,15 @@ resource "aws_iam_role_policy" "airflow_s3_policy" {
         "s3:GetObject"
       ]
       Resource = "arn:aws:s3:::${var.dataset_bucket_name}/${var.dataset_parquet_file_bucket_key}"
-    }]
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject"
+        ]
+        Resource = "arn:aws:s3:::${var.mlflow_artifact_store_s3_bucket_name}/${var.mlflow_artifact_store_s3_bucket_key}/*"
+      }
+    ]
   })
 }
 
@@ -93,6 +101,7 @@ resource "aws_instance" "airflow_instance" {
 
                   # Install Airflow
                   pip install apache-airflow
+                  pip install boto3 # required for mlflow to manage artifacts in S3
 
                   # Initialize Airflow database
                   airflow db init

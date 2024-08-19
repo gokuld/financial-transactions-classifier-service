@@ -2,6 +2,7 @@ from datetime import datetime
 
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
+from register_best_model import pick_and_register_best_model
 from train_predict_category_model import train_model
 
 # Define the default arguments
@@ -15,9 +16,14 @@ dag = DAG(
     catchup=False,
 )
 
-# Define the task
+# Define the training task
 train_model_task = PythonOperator(
     task_id="train_model_task", python_callable=train_model, dag=dag
 )
 
-train_model_task
+# define the task that picks the best model from the MLFlow experiment and registers it
+register_best_model_task = PythonOperator(
+    task_id="pick_and_register_best_model", python_callable=pick_and_register_best_model
+)
+
+train_model_task >> register_best_model_task

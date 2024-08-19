@@ -43,4 +43,6 @@ module "airflow" {
   dags_local_path                 = var.airflow_dags_local_path
   dataset_bucket_name             = var.dataset_bucket_name
   dataset_parquet_file_bucket_key = var.dataset_parquet_file_bucket_key
+
+  mlflow_artifact_store_s3_bucket_name = var.mlflow_artifact_store_s3_bucket_name
 }
