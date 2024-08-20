@@ -66,23 +66,47 @@ Ensure you have the following tools and configurations:
    cd product-category-prediction
    git checkout dev
    ```
+2. **Create AWS Key Pairs**:
 
-2. **Deploy the Infrastructure**:
+- Create the following key pairs in AWS and store the private keys in
+  the specified locations:
+
+| Key Name       | Location                                              |
+|----------------|-------------------------------------------------------|
+| Model Service  | `./terraform/modules/model_service/Model Service.pem` |
+| AirFlow Server | `./terraform/modules/airflow/AirFlow Server.pem`      |
+
+This step allows for uploading local files to the AWS EC2 instance,
+such as the Airflow DAG scripts directory to the Airflow server.
+
+3. **Deploy the Infrastructure**:
    ```sh
    cd terraform
    terraform init
    terraform apply
    ```
+- During the `terraform apply` step, Terraform will prompt for values
+  for any variables that are not predefined. Here is an example of
+  values you may need to provide:
+
+| Variable                               | Example Value        |
+|----------------------------------------|----------------------|
+| `aws_region`                           | `ap-south-1`         |
+| `availability_zone_a`                  | `ap-south-1a`        |
+| `availability_zone_b`                  | `ap-south-1b`        |
+| `mlflow_artifact_store_s3_bucket_name` | `product-categorize` |
+| `dataset_bucket_name`                  | `product-categorize` |
+
 - After Terraform finishes applying, note the URIs for the MLflow
 server, Airflow server, and model API service (public IP and host)
 from the Terraform output.
 
-3. **Trigger Model Training**:
+4. **Trigger Model Training**:
 - Open the Airflow UI using the URI provided in the Terraform output.
 - Trigger the DAG named predict_category_model_training_dag. This will
   train the model, track it on MLflow, and register it.
 
-4. **Test the Prediction Service**:
+5. **Test the Prediction Service**:
 Access the Swagger UI of the model prediction API using the URL
 provided in the Terraform output. To evaluate the model, input a
 sample product description, such as "A set of paring knives." The
