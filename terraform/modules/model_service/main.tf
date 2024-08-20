@@ -43,6 +43,11 @@ resource "aws_instance" "model_service_instance" {
               sudo apt-get update
               sudo apt-get install -y python3-pip python3-venv pipenv apt-transport-https ca-certificates curl software-properties-common
 
+              echo "export MLFLOW_TRACKING_URI='http://${var.mlflow_server_ip}:5000'" >> /home/admin/.bashrc
+
+              # Source the updated .bashrc to load the environment variables
+              source /home/admin/.bashrc
+
               # Switch to the admin user and set up and run the model service
               sudo -i -u admin bash << EOL
                   cd /home/admin/model_service
@@ -51,7 +56,7 @@ resource "aws_instance" "model_service_instance" {
                   python3 -m venv /home/admin/model_service_venv
                   source /home/admin/model_service_venv/bin/activate
 
-                  export MLFLOW_TRACKING_URI = http://${var.mlflow_server_ip}:5000
+                  echo "MLFLOW_TRACKING_URI = \"http://${var.mlflow_server_ip}:5000\"" > config.py
 
                   pip install -r requirements.txt
                   bentoml serve bentoml_service.py:PredictProductCategory
