@@ -113,6 +113,16 @@ sample product description, such as "A set of paring knives." The
 model should return the predicted category, in this case, "Kitchen and
 Dining."
 
+### Note
+
+- Initially, the model service will output the category string
+  `"None"` if no model is registered on MLflow.
+- Once the DAG is triggered on Airflow, which trains the model and
+  registers it with MLflow, subsequent API calls to the model service
+  will return the predicted product category from the best model.
+- The DAG run, which involves model training, takes approximately 10
+  minutes. Until then, the model service will only predict `"None"` as
+  the category.
 
 ## Code Quality and Continuous Integration
 
