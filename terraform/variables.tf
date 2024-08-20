@@ -31,3 +31,8 @@ variable "dataset_parquet_file_bucket_key" {
   description = "Key of the dataset file in the S3 bucket"
   type        = string
 }
+
+variable "bentoml_service_source_local_path" {
+  description = "Local path containing the source to build and run the bentoml model service. This will be copied to the model service instance."
+  type        = string
+}

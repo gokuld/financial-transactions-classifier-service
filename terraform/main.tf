@@ -46,3 +46,16 @@ module "airflow" {
 
   mlflow_artifact_store_s3_bucket_name = var.mlflow_artifact_store_s3_bucket_name
 }
+
+module "model_service" {
+  source = "./modules/model_service"
+
+  vpc_id    = module.network.vpc_id
+  subnet_id = module.network.public_subnet_a_id
+
+  bentoml_service_source_local_path = var.bentoml_service_source_local_path
+
+  mlflow_server_ip                     = module.mlflow.mlflow_server_private_ip
+  mlflow_artifact_store_s3_bucket_name = var.mlflow_artifact_store_s3_bucket_name
+
+}
